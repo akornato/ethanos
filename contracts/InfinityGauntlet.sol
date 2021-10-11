@@ -5,11 +5,11 @@ import "./InfinityStone.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 
 contract InfinityGauntlet is Context {
-    address[] public gauntlet;
+    address[] public infinityStones;
 
     constructor() {
         console.log("Deploying an InfinityGauntlet");
-        gauntlet = [
+        infinityStones = [
             address(new InfinityStone("space")),
             address(new InfinityStone("reality")),
             address(new InfinityStone("power")),
@@ -17,20 +17,24 @@ contract InfinityGauntlet is Context {
             address(new InfinityStone("soul")),
             address(new InfinityStone("time"))
         ];
-        assert(gauntlet.length == 6);
+        assert(infinityStones.length == 6);
     }
 
-    function addStones(string[] memory names) public {
-        uint256 initialGauntletLength = gauntlet.length;
+    function getInfinityStones() external view returns (address[] memory) {
+        return infinityStones;
+    }
+
+    function addinfinityStones(string[] memory names) public {
+        uint256 initialGauntletLength = infinityStones.length;
         for (uint256 i = 0; i < names.length; i++) {
-            gauntlet.push(address(new InfinityStone(names[i])));
+            infinityStones.push(address(new InfinityStone(names[i])));
         }
-        assert(gauntlet.length == initialGauntletLength + names.length);
+        assert(infinityStones.length == initialGauntletLength + names.length);
     }
 
     function acquireStone(string memory _name) public payable {
-        for (uint256 i = 0; i < gauntlet.length; i++) {
-            InfinityStone infinityStone = InfinityStone(gauntlet[i]);
+        for (uint256 i = 0; i < infinityStones.length; i++) {
+            InfinityStone infinityStone = InfinityStone(infinityStones[i]);
             if (strcmp(infinityStone.name(), _name)) {
                 infinityStone.acquire();
                 assert(infinityStone.owner() == _msgSender());
@@ -40,8 +44,8 @@ contract InfinityGauntlet is Context {
     }
 
     function giveAwayStone(string memory _name, address newOwner) public {
-        for (uint256 i = 0; i < gauntlet.length; i++) {
-            InfinityStone infinityStone = InfinityStone(gauntlet[i]);
+        for (uint256 i = 0; i < infinityStones.length; i++) {
+            InfinityStone infinityStone = InfinityStone(infinityStones[i]);
             if (strcmp(infinityStone.name(), _name)) {
                 infinityStone.giveAway(newOwner);
                 assert(infinityStone.owner() == newOwner);
