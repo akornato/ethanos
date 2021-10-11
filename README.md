@@ -1,12 +1,12 @@
 # ETHanos
 
-ETHanos is back and he is in the Ethereum universe. He is searching for all 6 infinity stones
+Thanos is back and he is in the Ethereum universe. He is searching for all 6 infinity stones
 (space, reality, power, mind, soul and time) on the Ethereum blockchain.
 
 The `InfinityStone` contract has an owner and a name. The stone also has a state which
 can be `ACQUIRED` or `UNTAKEN`. Default state is `UNTAKEN`. The stone can be `acquire`d, and whoever acquires it must pay a price (in ETH). In
 order to be acquired, the stone must have the status `UNTAKEN`. The stone can also be `give`(n)`Away`. Only the owner can call this function and the
-stone must have the status ACQUIRED.
+stone must have the status `ACQUIRED`.
 
 The `InfinityGauntlet` contract on construction creates (via factory pattern) and owns 6 infinity stones and stores them on the contract. The contract is
 able to `addStones` to the gauntlet. The contract is also able to `acquireStone` and `giveAwayStone`.
