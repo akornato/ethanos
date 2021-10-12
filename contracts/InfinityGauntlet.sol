@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
+import "hardhat/console.sol";
 import "./InfinityStone.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
 
-contract InfinityGauntlet is Context {
+contract InfinityGauntlet {
     address[] public infinityStones;
 
     constructor() {
@@ -24,7 +24,7 @@ contract InfinityGauntlet is Context {
         return infinityStones;
     }
 
-    function addinfinityStones(string[] memory names) public {
+    function addInfinityStones(string[] memory names) public {
         uint256 initialGauntletLength = infinityStones.length;
         for (uint256 i = 0; i < names.length; i++) {
             infinityStones.push(address(new InfinityStone(names[i])));
@@ -36,11 +36,12 @@ contract InfinityGauntlet is Context {
         for (uint256 i = 0; i < infinityStones.length; i++) {
             InfinityStone infinityStone = InfinityStone(infinityStones[i]);
             if (strcmp(infinityStone.name(), _name)) {
-                infinityStone.acquire();
-                assert(infinityStone.owner() == _msgSender());
-                break;
+                infinityStone.acquire{value: 10000000000000000}(msg.sender);
+                assert(infinityStone.owner() == msg.sender);
+                return;
             }
         }
+        revert("Infinity stone not found");
     }
 
     function giveAwayStone(string memory _name, address newOwner) public {
@@ -49,9 +50,10 @@ contract InfinityGauntlet is Context {
             if (strcmp(infinityStone.name(), _name)) {
                 infinityStone.giveAway(newOwner);
                 assert(infinityStone.owner() == newOwner);
-                break;
+                return;
             }
         }
+        revert("Infinity stone not found");
     }
 
     function memcmp(bytes memory a, bytes memory b)

@@ -17,8 +17,6 @@ able to `addStones` to the gauntlet. The contract is also able to `acquireStone`
 
 ## Solidity
 
-`InfinityStone` is OpenZeppelin's `Ownable`.
-
 Patterns applied:
 
 - [Checks Effects Interactions](https://fravoll.github.io/solidity-patterns/checks_effects_interactions.html)

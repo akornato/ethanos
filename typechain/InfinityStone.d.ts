@@ -22,56 +22,27 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface InfinityStoneInterface extends ethers.utils.Interface {
   functions: {
-    "acquire()": FunctionFragment;
-    "color()": FunctionFragment;
+    "acquire(address)": FunctionFragment;
     "giveAway(address)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
     "state()": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "acquire", values?: undefined): string;
-  encodeFunctionData(functionFragment: "color", values?: undefined): string;
+  encodeFunctionData(functionFragment: "acquire", values: [string]): string;
   encodeFunctionData(functionFragment: "giveAway", values: [string]): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "state", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
 
   decodeFunctionResult(functionFragment: "acquire", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "color", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "giveAway", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "state", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
 
-  events: {
-    "OwnershipTransferred(address,address)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  events: {};
 }
-
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string] & { previousOwner: string; newOwner: string }
->;
 
 export class InfinityStone extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -118,10 +89,9 @@ export class InfinityStone extends BaseContract {
 
   functions: {
     acquire(
+      newOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    color(overrides?: CallOverrides): Promise<[string]>;
 
     giveAway(
       newOwner: string,
@@ -132,23 +102,13 @@ export class InfinityStone extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     state(overrides?: CallOverrides): Promise<[number]>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
   acquire(
+    newOwner: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  color(overrides?: CallOverrides): Promise<string>;
 
   giveAway(
     newOwner: string,
@@ -159,21 +119,10 @@ export class InfinityStone extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
-  renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   state(overrides?: CallOverrides): Promise<number>;
 
-  transferOwnership(
-    newOwner: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
-    acquire(overrides?: CallOverrides): Promise<void>;
-
-    color(overrides?: CallOverrides): Promise<string>;
+    acquire(newOwner: string, overrides?: CallOverrides): Promise<void>;
 
     giveAway(newOwner: string, overrides?: CallOverrides): Promise<void>;
 
@@ -181,40 +130,16 @@ export class InfinityStone extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<string>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
     state(overrides?: CallOverrides): Promise<number>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
-  filters: {
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
     acquire(
+      newOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    color(overrides?: CallOverrides): Promise<BigNumber>;
 
     giveAway(
       newOwner: string,
@@ -225,24 +150,14 @@ export class InfinityStone extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     state(overrides?: CallOverrides): Promise<BigNumber>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     acquire(
+      newOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    color(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     giveAway(
       newOwner: string,
@@ -253,15 +168,6 @@ export class InfinityStone extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     state(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
   };
 }
