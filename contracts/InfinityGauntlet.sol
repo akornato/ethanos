@@ -5,53 +5,42 @@ import "hardhat/console.sol";
 import "./InfinityStone.sol";
 
 contract InfinityGauntlet {
-    address[] public infinityStones;
+    mapping(string => address) public infinityStones;
 
     constructor() {
         console.log("Deploying an InfinityGauntlet");
-        infinityStones = [
-            address(new InfinityStone("space")),
-            address(new InfinityStone("reality")),
-            address(new InfinityStone("power")),
-            address(new InfinityStone("mind")),
-            address(new InfinityStone("soul")),
-            address(new InfinityStone("time"))
-        ];
-        assert(infinityStones.length == 6);
-    }
-
-    function getInfinityStones() external view returns (address[] memory) {
-        return infinityStones;
+        infinityStones["space"] = address(new InfinityStone("space"));
+        infinityStones["reality"] = address(new InfinityStone("reality"));
+        infinityStones["power"] = address(new InfinityStone("power"));
+        infinityStones["mind"] = address(new InfinityStone("mind"));
+        infinityStones["soul"] = address(new InfinityStone("soul"));
+        infinityStones["time"] = address(new InfinityStone("time"));
     }
 
     function addInfinityStones(string[] memory names) public {
-        uint256 initialGauntletLength = infinityStones.length;
         for (uint256 i = 0; i < names.length; i++) {
-            infinityStones.push(address(new InfinityStone(names[i])));
+            infinityStones[names[i]] = address(new InfinityStone(names[i]));
         }
-        assert(infinityStones.length == initialGauntletLength + names.length);
     }
 
     function acquireStone(string memory _name) public payable {
-        for (uint256 i = 0; i < infinityStones.length; i++) {
-            InfinityStone infinityStone = InfinityStone(infinityStones[i]);
-            if (strcmp(infinityStone.name(), _name)) {
-                infinityStone.acquire{value: msg.value}(msg.sender);
-                assert(infinityStone.owner() == msg.sender);
-                return;
-            }
+        address infinityStoneAddress = infinityStones[_name];
+        if (infinityStoneAddress != address(0)) {
+            InfinityStone infinityStone = InfinityStone(infinityStoneAddress);
+            infinityStone.acquire{value: msg.value}(msg.sender);
+            assert(infinityStone.owner() == msg.sender);
+            return;
         }
         revert("Infinity stone not found");
     }
 
     function giveAwayStone(string memory _name, address newOwner) public {
-        for (uint256 i = 0; i < infinityStones.length; i++) {
-            InfinityStone infinityStone = InfinityStone(infinityStones[i]);
-            if (strcmp(infinityStone.name(), _name)) {
-                infinityStone.giveAway(newOwner);
-                assert(infinityStone.owner() == newOwner);
-                return;
-            }
+        address infinityStoneAddress = infinityStones[_name];
+        if (infinityStoneAddress != address(0)) {
+            InfinityStone infinityStone = InfinityStone(infinityStoneAddress);
+            infinityStone.giveAway(newOwner);
+            assert(infinityStone.owner() == newOwner);
+            return;
         }
         revert("Infinity stone not found");
     }

@@ -24,9 +24,8 @@ interface InfinityGauntletInterface extends ethers.utils.Interface {
   functions: {
     "acquireStone(string)": FunctionFragment;
     "addInfinityStones(string[])": FunctionFragment;
-    "getInfinityStones()": FunctionFragment;
     "giveAwayStone(string,address)": FunctionFragment;
-    "infinityStones(uint256)": FunctionFragment;
+    "infinityStones(string)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -38,16 +37,12 @@ interface InfinityGauntletInterface extends ethers.utils.Interface {
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "getInfinityStones",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "giveAwayStone",
     values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "infinityStones",
-    values: [BigNumberish]
+    values: [string]
   ): string;
 
   decodeFunctionResult(
@@ -56,10 +51,6 @@ interface InfinityGauntletInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "addInfinityStones",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getInfinityStones",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -128,18 +119,13 @@ export class InfinityGauntlet extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    getInfinityStones(overrides?: CallOverrides): Promise<[string[]]>;
-
     giveAwayStone(
       _name: string,
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    infinityStones(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    infinityStones(arg0: string, overrides?: CallOverrides): Promise<[string]>;
   };
 
   acquireStone(
@@ -152,18 +138,13 @@ export class InfinityGauntlet extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  getInfinityStones(overrides?: CallOverrides): Promise<string[]>;
-
   giveAwayStone(
     _name: string,
     newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  infinityStones(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  infinityStones(arg0: string, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     acquireStone(_name: string, overrides?: CallOverrides): Promise<void>;
@@ -173,18 +154,13 @@ export class InfinityGauntlet extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    getInfinityStones(overrides?: CallOverrides): Promise<string[]>;
-
     giveAwayStone(
       _name: string,
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    infinityStones(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    infinityStones(arg0: string, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
@@ -200,18 +176,13 @@ export class InfinityGauntlet extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    getInfinityStones(overrides?: CallOverrides): Promise<BigNumber>;
-
     giveAwayStone(
       _name: string,
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    infinityStones(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    infinityStones(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -225,8 +196,6 @@ export class InfinityGauntlet extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    getInfinityStones(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     giveAwayStone(
       _name: string,
       newOwner: string,
@@ -234,7 +203,7 @@ export class InfinityGauntlet extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     infinityStones(
-      arg0: BigNumberish,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
