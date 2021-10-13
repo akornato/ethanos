@@ -36,7 +36,7 @@ contract InfinityGauntlet {
         for (uint256 i = 0; i < infinityStones.length; i++) {
             InfinityStone infinityStone = InfinityStone(infinityStones[i]);
             if (strcmp(infinityStone.name(), _name)) {
-                infinityStone.acquire{value: 10000000000000000}(msg.sender);
+                infinityStone.acquire{value: msg.value}(msg.sender);
                 assert(infinityStone.owner() == msg.sender);
                 return;
             }
