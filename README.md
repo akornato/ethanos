@@ -11,20 +11,6 @@ stone must have the status `ACQUIRED`.
 The `InfinityGauntlet` contract on construction creates (via factory pattern) and owns 6 infinity stones and stores them on the contract. The contract is
 able to `addStones` to the gauntlet. The contract is also able to `acquireStone` and `giveAwayStone`.
 
-## Hardhat
-
-[Hardhat](https://hardhat.org/) Network is used to run and debug Solidity locally, along with [Typechain](https://github.com/ethereum-ts/TypeChain) to provide TypeScript bindings for Ethereum smart contracts.
-
-## Solidity
-
-Patterns applied:
-
-- [Checks Effects Interactions](https://fravoll.github.io/solidity-patterns/checks_effects_interactions.html)
-
-## Waffle
-
-External & public contract functions are covered by [Waffle](https://ethereum-waffle.readthedocs.io) tests.
-
 ## Advanced Sample Hardhat Project
 
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
